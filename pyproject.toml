@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mkdocs-git-committers-plugin-2"
+dynamic = ["version"]
+description = "An MkDocs plugin to create a list of contributors on the page. The git-committers plugin will seed the template context with a list of GitHub or GitLab committers and other useful GIT info such as last modified date"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8,<4"
+authors = [
+    { name = "Byrne Reese", email = "byrne@majordojo.com" },
+    { name = "Olivier Jacques", email = "ojacques2@gmail.com" },
+]
+keywords = [
+    "committers",
+    "github",
+    "mkdocs",
+    "plugin",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "gitpython",
+    "mkdocs>=1.0.3",
+    "requests",
+]
+
+[project.entry-points."mkdocs.plugins"]
+git-committers = "mkdocs_git_committers_plugin_2.plugin:GitCommittersPlugin"
+
+[project.urls]
+Homepage = "https://github.com/ojacques/mkdocs-git-committers-plugin-2/"
+
+[tool.hatch.version]
+path = "mkdocs_git_committers_plugin_2/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/mkdocs_git_committers_plugin_2",
+]
