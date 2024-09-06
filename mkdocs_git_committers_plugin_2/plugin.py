@@ -223,10 +223,10 @@ class GitCommittersPlugin(BasePlugin):
             return []
         return []
 
-    def list_contributors(self, path):
+    def list_contributors(self, path: str):
         last_commit_date = ""
         path = path.replace("\\", "/")
-        for c in Commit.iter_items(self.localrepo, self.localrepo.head, path):
+        for c in self.localrepo.iter_commits(self.localrepo.head, path):
             if not last_commit_date:
                 # Use the last commit and get the date
                 last_commit_date = time.strftime("%Y-%m-%d", time.gmtime(c.authored_date))
@@ -259,6 +259,8 @@ class GitCommittersPlugin(BasePlugin):
             return context
         start = timer()
         git_path = page.file.abs_src_path
+        if not git_path:
+            return context
         authors, last_commit_date = self.list_contributors(git_path)
         if authors:
             context['committers'] = authors
