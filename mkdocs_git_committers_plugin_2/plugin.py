@@ -1,12 +1,13 @@
 import json
 import logging
 import os
+from pathlib import Path
 import time
 from datetime import datetime
 from timeit import default_timer as timer
 
 import requests
-from git import Commit, Repo
+from git import Repo
 from mkdocs.config import config_options
 from mkdocs.plugins import BasePlugin
 from mkdocs.structure.pages import Page
@@ -226,7 +227,7 @@ class GitCommittersPlugin(BasePlugin):
     def list_contributors(self, path: str):
         last_commit_date = ""
         path = path.replace("\\", "/")
-        for c in self.localrepo.iter_commits(self.localrepo.head, path):
+        for c in self.localrepo.iter_commits(self.localrepo.head, paths=path):
             if not last_commit_date:
                 # Use the last commit and get the date
                 last_commit_date = time.strftime("%Y-%m-%d", time.gmtime(c.authored_date))
@@ -258,7 +259,7 @@ class GitCommittersPlugin(BasePlugin):
             LOG.info("git-committers: " + page.file.src_path + " is excluded")
             return context
         start = timer()
-        git_path = page.file.abs_src_path
+        git_path = Path(config["docs_dir"], page.file.src_uri).as_posix()
         if not git_path:
             return context
         authors, last_commit_date = self.list_contributors(git_path)
